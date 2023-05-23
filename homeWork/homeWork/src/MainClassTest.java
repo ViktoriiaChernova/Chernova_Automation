@@ -16,4 +16,15 @@ public class MainClassTest extends MainClass
       int b = this.getClassNumber();
       Assert.assertTrue("getClassNumber do not return number>45",b > 45);
     }
+
+    @Test
+    public void testGetClassString()
+    {
+        String c = this.getClassString();
+        if (c.contains("Hello") || c.contains("hello")) {
+            System.out.println("test succeed");
+        } else {
+            Assert.fail( c + " does not contains Hello word");
+        }
+    }
 }
