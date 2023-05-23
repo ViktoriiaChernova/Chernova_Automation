@@ -1,4 +1,4 @@
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.junit.Assert;
 
 public class MainClassTest extends MainClass
@@ -8,5 +8,12 @@ public class MainClassTest extends MainClass
     {
         int a = this.getLocalNumber();
         Assert.assertTrue("getLocalNumber do not return 14",a == 14);
+    }
+
+    @Test
+    public void testGetClassNumber()
+    {
+      int b = this.getClassNumber();
+      Assert.assertTrue("getClassNumber do not return number>45",b > 45);
     }
 }
