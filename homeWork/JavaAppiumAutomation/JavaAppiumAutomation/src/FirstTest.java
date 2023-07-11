@@ -113,7 +113,7 @@ public class FirstTest {
         waitForElementAndSendKeys(
                 By.xpath("//*[contains(@text,'Search Wikipedia')]"),
                 "Java",
-                "cannot send keys",
+                "Cannot send keys",
                 5
         );
 
@@ -168,10 +168,22 @@ public class FirstTest {
                 15
         );
         waitForElementPresent(
-                By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_description']//*[@text='American multinational technology corporation']"),
+                By.xpath("//*[@text='American multinational technology corporation']"),
                 "cannot find 'American multinational technology corporation'",
                 15
         );
+        waitForElementAndClick(
+                By.id("Clear query"),
+                "Cannot clear query",
+                5
+        );
+        waitForElementNotPresent(
+                By.xpath("//*[@text='American multinational technology corporation']"),
+                "Search result is still present on the page",
+                5
+        );
+
+
     }
 
     private WebElement waitForElementPresent(By by, String error_message, long timeoutInSeconds)
