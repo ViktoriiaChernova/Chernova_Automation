@@ -9,6 +9,7 @@ import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.junit.matchers.JUnitMatchers;
 
 import java.net.URL;
 
@@ -159,17 +160,17 @@ public class FirstTest {
         waitForElementAndSendKeys(
                 By.xpath("//*[contains(@text,'Search Wikipedia')]"),
                 "apple",
-                "cannot send keys",
+                "Cannot send keys",
                 5
         );
         waitForElementPresent(
                 By.xpath("//*[@text='Fruit that grows on a tree']"),
-                "cannot find 'Fruit that grows on a tree'",
+                "Cannot find 'Fruit that grows on a tree'",
                 15
         );
         waitForElementPresent(
                 By.xpath("//*[@text='American multinational technology corporation']"),
-                "cannot find 'American multinational technology corporation'",
+                "Cannot find 'American multinational technology corporation'",
                 15
         );
         waitForElementAndClick(
@@ -183,6 +184,28 @@ public class FirstTest {
                 5
         );
 
+    }
+
+    @Test
+    public void testSearchTitleContainsWord()
+    {
+        waitForElementAndClick(
+                By.xpath("//*[contains(@text,'Search Wikipedia')]"),
+                "Cannot find search input",
+                5
+        );
+
+        waitForElementAndSendKeys(
+                By.xpath("//*[contains(@text,'Search Wikipedia')]"),
+                "apple",
+                "Cannot send keys",
+                5
+        );
+        checkElementHasWord(
+                By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_title']"),
+                "Apple",
+                "Element does not contain expected word"
+        );
 
     }
 
@@ -235,6 +258,17 @@ public class FirstTest {
                 error_message,
                 expected_text,
                 element_text
+        );
+        return element;
+    }
+
+    private WebElement checkElementHasWord (By by, String expected_word, String error_message)
+    {
+        WebElement element = waitForElementPresent(by, error_message);
+        String element_text = element.getAttribute("text");
+        Assert.assertThat(
+                element_text,
+                JUnitMatchers.containsString(expected_word)
         );
         return element;
     }
