@@ -146,9 +146,33 @@ public class FirstTest {
 
         );
     }
-            //Также, необходимо написать тест, который проверяет, что поле ввода для поиска статьи содержит текст
-    // (в разных версиях приложения это могут быть тексты "Search..." или "Search Wikipedia",
-    // правильным вариантом следует считать тот, которые есть сейчас)
+
+    @Test
+    public void testSearchTitleAndCancelSearch()
+    {
+        waitForElementAndClick(
+                By.xpath("//*[contains(@text,'Search Wikipedia')]"),
+                "Cannot find search input",
+                5
+        );
+
+        waitForElementAndSendKeys(
+                By.xpath("//*[contains(@text,'Search Wikipedia')]"),
+                "apple",
+                "cannot send keys",
+                5
+        );
+        waitForElementPresent(
+                By.xpath("//*[@text='Fruit that grows on a tree']"),
+                "cannot find 'Fruit that grows on a tree'",
+                15
+        );
+        waitForElementPresent(
+                By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_description']//*[@text='American multinational technology corporation']"),
+                "cannot find 'American multinational technology corporation'",
+                15
+        );
+    }
 
     private WebElement waitForElementPresent(By by, String error_message, long timeoutInSeconds)
     {
