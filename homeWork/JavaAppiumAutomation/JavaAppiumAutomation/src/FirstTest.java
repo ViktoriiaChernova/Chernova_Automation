@@ -1,8 +1,10 @@
+import io.appium.java_client.TouchAction;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import io.appium.java_client.AppiumDriver;
@@ -138,6 +140,40 @@ public class FirstTest {
     }
 
     @Test
+    public void testSwipeArticle()
+    {
+        waitForElementAndClick(
+                By.xpath("//*[contains(@text,'Search Wikipedia')]"),
+                "Cannot find search input",
+                5
+        );
+
+        waitForElementAndSendKeys(
+                By.xpath("//*[contains(@text,'Search Wikipedia')]"),
+                "Appium",
+                "Cannot send keys",
+                5
+        );
+
+        waitForElementAndClick(
+                By.xpath("//*[resource-id='org.wikipedia:id/page_list_item_title'][@text='Appium']"),
+                "Cannot find 'Appium' in search",
+                5
+        );
+
+        waitForElementPresent(
+                By.id("pcs-edit-section-title-description"),
+                "Cannot find article title description",
+                15
+        );
+        swipeUpToFindElement(
+                By.xpath("//*[@text='View article in browser']"),
+                "Test error message"
+        );
+
+    }
+
+    @Test
     public void testElementContaisText()
     {
         assertElementHasText(
@@ -164,12 +200,12 @@ public class FirstTest {
                 5
         );
         waitForElementPresent(
-                By.xpath("//*[@text='Fruit that grows on a tree']"),
+                By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_description'][@text='Fruit that grows on a tree']"),
                 "Cannot find 'Fruit that grows on a tree'",
                 15
         );
         waitForElementPresent(
-                By.xpath("//*[@text='American multinational technology corporation']"),
+                By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_description'][@text='American multinational technology corporation']"),
                 "Cannot find 'American multinational technology corporation'",
                 15
         );
@@ -272,5 +308,31 @@ public class FirstTest {
         );
         return element;
     }
+    protected void swipeUp(int timeOfSwipe)
+    {
+        TouchAction action = new TouchAction(driver);
+        Dimension size = driver.manage().window().getSize();
+        int x = size.width / 2;
+        int start_y = (int) (size.height * 0.8);
+        int end_y = (int) (size.height * 0.2);
 
+
+        action.press(x, start_y).waitAction(timeOfSwipe).moveTo(x, end_y).release().perform();
+    }
+
+    protected void swipeUpQuick()
+    {
+        swipeUp(200);
+    }
+
+    protected void swipeUpToFindElement(By by, String error_message)
+    {
+        driver.findElements(by);
+        driver.findElements(by).size();
+
+        while (driver.findElements(by).size() == 0){
+            swipeUpQuick();
+        }
+
+    }
 }
