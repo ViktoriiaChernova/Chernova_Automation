@@ -495,6 +495,138 @@ public class FirstTest {
         );
     }
 
+    @Test
+    public void saveTwoArticlesToMyList() {
+        waitForElementAndClick(
+                By.xpath("//*[contains(@text,'Search Wikipedia')]"),
+                "Cannot find search input",
+                5
+        );
+
+        waitForElementAndSendKeys(
+                By.xpath("//*[contains(@text,'Search Wikipedia')]"),
+                "Java",
+                "Cannot send keys",
+                5
+        );
+
+        waitForElementAndClick(
+                By.xpath("//*[@text='Object-oriented programming language']"),
+                "Cannot find search input",
+                5
+        );
+        waitForElementPresent(
+                By.id("pcs-edit-section-title-description"),
+                "Cannot find article title description",
+                15
+        );
+
+        waitForElementAndClick(
+                By.xpath("//android.widget.TextView[@content-desc='Save']"),
+                "Cannot find button 'Save'",
+                5
+        );
+
+        waitForElementAndClick(
+                By.xpath("//android.widget.Button[@text='ADD TO LIST']"),
+                "Cannot find button 'ADD TO LIST'",
+                5
+        );
+
+        String name_of_folder = "Learning programming";
+        waitForElementAndSendKeys(
+                By.id("org.wikipedia:id/text_input"),
+                name_of_folder,
+                "Cannot put text into articles folder input",
+                5
+        );
+
+        waitForElementAndClick(
+                By.xpath("//*[@text='OK']"),
+                "Cannot find button 'OK'",
+                5
+        );
+
+        waitForElementAndClick(
+                By.xpath("//*[contains(@text,'Search Wikipedia')]"),
+                "Cannot find search input",
+                5
+        );
+
+        waitForElementAndSendKeys(
+                By.xpath("//*[contains(@text,'Search Wikipedia')]"),
+                "Appium",
+                "Cannot send keys",
+                5
+        );
+
+        waitForElementAndClick(
+                By.xpath("//*[@text='Automation for Apps']"),
+                "Cannot choose 'Appium' article",
+                5
+        );
+
+        waitForElementPresent(
+                By.xpath("//*[@resource-id='org.wikipedia:id/page_save']"),
+                "Cannot find button 'Save'",
+                10
+        );
+
+        waitForElementAndClick(
+                By.xpath("//*[@text='Save']"),
+                "Cannot find button 'Save'",
+                5
+        );
+
+        waitForElementAndClick(
+                By.xpath("//android.widget.Button[@text='ADD TO LIST']"),
+                "Cannot find button 'ADD TO LIST'",
+                5
+        );
+
+        waitForElementAndClick(
+                By.xpath("//*[@text='" + name_of_folder +"']"),
+                "Cannot find saved list",
+                5
+        );
+
+        waitForElementAndClick(
+                By.xpath("//*[@resource-id='org.wikipedia:id/snackbar_action'][@text='VIEW LIST']"),
+                "Cannot find saved list",
+                5
+        );
+
+        swipeElementToLeft(
+                By.xpath("//*[@text='Java (programming language)']"),
+                "Cannot find saved article"
+        );
+
+        waitForElementNotPresent(
+                By.xpath("//*[@text='Java (programming language']"),
+                "Cannot delete saved article",
+                5
+        );
+
+        waitForElementPresent(
+                By.xpath("//*[@text='Automation for Apps']"),
+                "Cannot find 'Appium' article",
+                5
+        );
+
+        waitForElementAndClick(
+                By.xpath("//*[@text='Automation for Apps']"),
+                "Cannot find 'Appium' article",
+                1
+        );
+        assertElementHasText(
+                By.id("pcs-edit-section-title-description"),
+                "Automation for Apps",
+                "Cannot find 'Appium' article description"
+        );
+
+    }
+
+
 
     private WebElement waitForElementPresent(By by, String error_message, long timeoutInSeconds)
     {
