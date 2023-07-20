@@ -626,6 +626,28 @@ public class FirstTest {
 
     }
 
+    @Test
+    public void testCheckArticleTitle()
+    {
+        waitForElementAndClick(
+                By.xpath("//*[contains(@text,'Search Wikipedia')]"),
+                "Cannot find search input",
+                5
+        );
+
+        waitForElementAndSendKeys(
+                By.xpath("//*[contains(@text,'Search Wikipedia')]"),
+                "Java",
+                "Cannot send keys",
+                5
+        );
+
+        assertElementPresent(
+       //  By.xpath("//*[@resource-id='org.wikipedia:id/snackbar_action']"),
+                "We didnt find results by request "
+        );
+    }
+
 
 
     private WebElement waitForElementPresent(By by, String error_message, long timeoutInSeconds)
@@ -773,5 +795,15 @@ public class FirstTest {
         WebElement element = waitForElementPresent(by, error_message, timeoutInSeconds);
         return  element.getAttribute(attribute);
 
+    }
+
+    private void assertElementPresent(By by, String error_message)
+    {
+        int amount_of_elements = getAmountOfElements(by);
+        if (amount_of_elements < 1) {
+            String default_message = "An element " + by.toString() + " supposed to be present";
+            throw new AssertionError(default_message + " " + error_message);
+
+        }
     }
 }
