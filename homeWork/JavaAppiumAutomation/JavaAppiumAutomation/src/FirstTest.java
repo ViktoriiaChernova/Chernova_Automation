@@ -625,7 +625,7 @@ public class FirstTest {
         );
 
     }
-
+// домашка 4й урок
     @Test
     public void testCheckArticleTitle()
     {
@@ -642,9 +642,16 @@ public class FirstTest {
                 5
         );
 
+        waitForElementAndGetAttribute(
+                By.id("pcs-edit-section-title-description"),
+                "text",
+                "didn't find title",
+                5
+        );
+
         assertElementPresent(
-       //  By.xpath("//*[@resource-id='org.wikipedia:id/snackbar_action']"),
-                "We didnt find results by request "
+                By.id("pcs-edit-section-title-description"),
+                "We didn't find results by request "
         );
     }
 
