@@ -625,7 +625,6 @@ public class FirstTest {
         );
 
     }
-// домашка 4й урок
     @Test
     public void testCheckArticleTitle()
     {
@@ -639,6 +638,12 @@ public class FirstTest {
                 By.xpath("//*[contains(@text,'Search Wikipedia')]"),
                 "Java",
                 "Cannot send keys",
+                5
+        );
+
+        waitForElementAndClick(
+                By.xpath("//*[@text='Object-oriented programming language']"),
+                "Cannot find search input",
                 5
         );
 
