@@ -1,6 +1,8 @@
 
 import lib.CoreTestCase;
+import lib.ui.ArticlePageObject;
 import lib.ui.MainPageObject;
+import lib.ui.SearchPageObject;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -21,87 +23,39 @@ public class FirstTest extends CoreTestCase {
     @Test
     public void testSearch()
     {
-        MainPageObject.waitForElementAndClick(
-                By.xpath("//*[contains(@text,'Search Wikipedia')]"),
-                "Cannot find search input",
-                5
-        );
 
-        MainPageObject.waitForElementAndSendKeys(
-                By.xpath("//*[contains(@text,'Search Wikipedia')]"),
-                "Java",
-                "cannot send keys",
-                5
-        );
+       SearchPageObject SearchPageObject = new SearchPageObject(driver);
 
-        MainPageObject.waitForElementPresent(
-                By.xpath("//*[@text='Object-oriented programming language']"),
-                "cannot find 'Object-oriented programming language'",
-                10
-        );
+       SearchPageObject.initSearchInput();
+       SearchPageObject.typeSearchLine("Java");
+       SearchPageObject.waitForSearchResult("Object-oriented programming language");
 
-       // System.out.println("First test run");
     }
 
     @Test
     public void testCancelSearch()
     {
-        MainPageObject.waitForElementAndClick(
-                By.id("org.wikipedia:id/search_container"),
-                "Cannot find search input",
-                5
-        );
-        MainPageObject.waitForElementAndSendKeys(
-                By.xpath("//*[contains(@text,'Search Wikipedia')]"),
-                "Java",
-                "cannot send keys",
-                5
-        );
-        MainPageObject.waitForElementAndClear(
-                By.id("org.wikipedia:id/search_src_text"),
-                "Cannot find search field",
-                5
-        );
-        MainPageObject.waitForElementAndClick(
-                By.id("Navigate up"),
-                "Cannot find 'Back' button",
-                5
-        );
-        MainPageObject.waitForElementNotPresent(
-                By.id ("Navigate up"),
-                "'Back' button is still present on the page",
-                5
-        );
+        SearchPageObject SearchPageObject = new SearchPageObject(driver);
+
+        SearchPageObject.initSearchInput();
+        SearchPageObject.typeSearchLine("Java");
+        SearchPageObject.waitForCancelButtonToAppear();
+        SearchPageObject.clickCancelSearch();
+        SearchPageObject.waitForCancelButtonToDisappear();
+
     }
 
     @Test
     public void testCompareArticleTitle()
     {
-        MainPageObject.waitForElementAndClick(
-                By.xpath("//*[contains(@text,'Search Wikipedia')]"),
-                "Cannot find search input",
-                5
-        );
+        SearchPageObject SearchPageObject = new SearchPageObject(driver);
 
-        MainPageObject.waitForElementAndSendKeys(
-                By.xpath("//*[contains(@text,'Search Wikipedia')]"),
-                "Java",
-                "Cannot send keys",
-                5
-        );
+        SearchPageObject.initSearchInput();
+        SearchPageObject.typeSearchLine("Java");
+        SearchPageObject.clickByArticleWithSubstring("Object-oriented programming language");
+        ArticlePageObject ArticlePageObject = new ArticlePageObject(driver);
+        String description_title = ArticlePageObject.getArticleTitle();
 
-        MainPageObject.waitForElementAndClick(
-                By.xpath("//*[@text='Object-oriented programming language']"),
-                "Cannot find search input",
-                5
-        );
-
-       WebElement description_title_element = MainPageObject.waitForElementPresent(
-                By.id("pcs-edit-section-title-description"),
-                "Cannot find article title description",
-                15
-        );
-       String description_title = description_title_element.getAttribute("text");
        Assert.assertEquals(
                 "Unexpected title!",
                 "Object-oriented programming language",
@@ -112,91 +66,35 @@ public class FirstTest extends CoreTestCase {
     @Test
     public void testSwipeArticle()
     {
-        MainPageObject.waitForElementAndClick(
-                By.xpath("//*[contains(@text,'Search Wikipedia')]"),
-                "Cannot find search input",
-                5
-        );
+        SearchPageObject SearchPageObject = new SearchPageObject(driver);
 
-        MainPageObject.waitForElementAndSendKeys(
-                By.xpath("//*[contains(@text,'Search Wikipedia')]"),
-                "Appium",
-                "Cannot send keys",
-                10
-        );
+        SearchPageObject.initSearchInput();
+        SearchPageObject.typeSearchLine("Appium");
+        SearchPageObject.clickByArticleWithSubstring("Automation for Apps");
 
-        MainPageObject.waitForElementAndClick(
-                By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_title'][@text='Appium']"),
-                "Cannot find 'Appium' in search",
-                10
-        );
-
-        MainPageObject.waitForElementPresent(
-                By.id("pcs-edit-section-title-description"),
-                "Cannot find article title description",
-                15
-        );
-        MainPageObject.swipeUpToFindElement(
-                By.xpath("//*[@text='View article in browser']"),
-                "Cannot find the end of the article",
-                20
-        );
-
+        ArticlePageObject ArticlePageObject = new ArticlePageObject(driver);
+        ArticlePageObject.waitForTitleElement();
+        ArticlePageObject.swipeToFooter();
     }
 
     @Test
     public void testSaveFirstArticleToMyList()
     {
-        MainPageObject.waitForElementAndClick(
-                By.xpath("//*[contains(@text,'Search Wikipedia')]"),
-                "Cannot find search input",
-                5
-        );
+        SearchPageObject SearchPageObject = new SearchPageObject(driver);
 
-        MainPageObject.waitForElementAndSendKeys(
-                By.xpath("//*[contains(@text,'Search Wikipedia')]"),
-                "Java",
-                "Cannot send keys",
-                5
-        );
+        SearchPageObject.initSearchInput();
+        SearchPageObject.typeSearchLine("Java");
+        SearchPageObject.clickByArticleWithSubstring("Object-oriented programming language");
 
-        MainPageObject.waitForElementAndClick(
-                By.xpath("//*[@text='Object-oriented programming language']"),
-                "Cannot find search input",
-                5
-        );
-
-        MainPageObject.waitForElementPresent(
-                By.id("pcs-edit-section-title-description"),
-                "Cannot find article title description",
-                15
-        );
-
-        MainPageObject.waitForElementAndClick(
-                By.xpath("//android.widget.TextView[@content-desc='Save']"),
-                "Cannot find button 'Save'",
-                5
-        );
-
-        MainPageObject.waitForElementAndClick(
-                By.xpath("//android.widget.Button[@text='ADD TO LIST']"),
-                "Cannot find button 'ADD TO LIST'",
-                5
-        );
-
+        ArticlePageObject ArticlePageObject = new ArticlePageObject(driver);
+        ArticlePageObject.waitForTitleElement();
+        String article_title = ArticlePageObject.getArticleTitle();
         String name_of_folder = "Learning programming";
-        MainPageObject.waitForElementAndSendKeys(
-                By.id("org.wikipedia:id/text_input"),
-                name_of_folder,
-                "Cannot put text into articles folder input",
-                5
-        );
+        ArticlePageObject.addArticleToMyList(name_of_folder);
 
-        MainPageObject.waitForElementAndClick(
-                By.xpath("//*[@text='OK']"),
-                "Cannot find button 'OK'",
-                5
-        );
+
+
+
 
         MainPageObject.waitForElementAndClick(
                 By.xpath("//android.widget.ImageButton[@content-desc='Navigate up']"),
@@ -227,7 +125,7 @@ public class FirstTest extends CoreTestCase {
                 "Cannot find saved article"
         );
         MainPageObject.waitForElementNotPresent(
-                 By.xpath("//*[@text='Java (programming language']"),
+                 By.xpath("//*[@text='Java (programming language)']"),
                  "Cannot delete saved article",
                  5
          );
