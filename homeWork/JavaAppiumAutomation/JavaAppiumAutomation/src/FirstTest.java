@@ -1,8 +1,6 @@
 
 import lib.CoreTestCase;
-import lib.ui.ArticlePageObject;
-import lib.ui.MainPageObject;
-import lib.ui.SearchPageObject;
+import lib.ui.*;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -91,44 +89,16 @@ public class FirstTest extends CoreTestCase {
         String article_title = ArticlePageObject.getArticleTitle();
         String name_of_folder = "Learning programming";
         ArticlePageObject.addArticleToMyList(name_of_folder);
+        ArticlePageObject.closeArticle();
+        ArticlePageObject.closeArticle();
 
+        NavigationUI NavigationUI = new NavigationUI(driver);
+        NavigationUI.clickSavedInMyList();
 
+        MyListsPageObject MyListPageObject = new MyListsPageObject(driver);
+        MyListPageObject.openFolderByName(name_of_folder);
+        MyListPageObject.swipeByArticleToDelete(article_title);
 
-
-
-        MainPageObject.waitForElementAndClick(
-                By.xpath("//android.widget.ImageButton[@content-desc='Navigate up']"),
-                "Cannot close article, cannot click back button",
-                5
-        );
-
-        MainPageObject.waitForElementAndClick(
-                By.xpath("//android.widget.ImageButton[@content-desc='Navigate up']"),
-                "Cannot close article, cannot click back button",
-                5
-        );
-
-        MainPageObject.waitForElementAndClick(
-                By.xpath("//android.widget.FrameLayout[@content-desc='Saved']"),
-                "Cannot find button 'Saved'",
-                5
-        );
-
-        MainPageObject.waitForElementAndClick(
-                By.xpath("//*[@text='" + name_of_folder +"']"),
-                "Cannot find saved list",
-                5
-        );
-
-        MainPageObject.swipeElementToLeft(
-                By.xpath("//*[@text='Java (programming language)']"),
-                "Cannot find saved article"
-        );
-        MainPageObject.waitForElementNotPresent(
-                 By.xpath("//*[@text='Java (programming language)']"),
-                 "Cannot delete saved article",
-                 5
-         );
     }
 
     @Test
