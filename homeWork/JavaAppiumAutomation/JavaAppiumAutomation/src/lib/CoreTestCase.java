@@ -5,6 +5,7 @@ import io.appium.java_client.android.AndroidDriver;
 import junit.framework.TestCase;
 import lib.ui.MainPageObject;
 import org.openqa.selenium.By;
+import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
@@ -29,13 +30,10 @@ public class CoreTestCase extends TestCase {
         capabilities.setCapability("app","/Users/v.chernova/Desktop/JavaAppiumAutomation/JavaAppiumAutomation/apks/org.wikipedia_50443_apps.evozi.com.apk");
         driver = new AndroidDriver(new URL(AppiumURL),capabilities);
 
+        this.rotateScreenPortrait();
+
         WebElement element = driver.findElementByXPath("//*[contains(@text,'SKIP')]");
         element.click();
-        // MainPageObject.waitForElementAndClick(
-              //  By.xpath("//*[contains(@text,'SKIP')]"),
-               // "no onboarding message",
-               // 5
-        //);
 
     }
 
@@ -46,5 +44,20 @@ public class CoreTestCase extends TestCase {
     {
         driver.quit();
         super.tearDown();
+    }
+
+    protected void rotateScreenPortrait()
+    {
+        driver.rotate(ScreenOrientation.PORTRAIT);
+    }
+
+    protected void rotateScreenPLandscape()
+    {
+        driver.rotate(ScreenOrientation.LANDSCAPE);
+    }
+
+    protected void backgroundApp(int seconds)
+    {
+        driver.runAppInBackground(seconds);
     }
 }
