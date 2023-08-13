@@ -13,7 +13,8 @@ public class ArticlePageObject extends  MainPageObject
     SAVE_ADD_TO_MY_LIST_BUTTON = "//android.widget.Button[@text='ADD TO LIST']",
     MY_LIST_NAME_INPUT = "org.wikipedia:id/text_input",
     MY_LIST_OK_BUTTON = "//*[@text='OK']",
-    CLOSE_ARTICLE_BUTTON ="//android.widget.ImageButton[@content-desc='Navigate up']";
+    CLOSE_ARTICLE_BUTTON ="//android.widget.ImageButton[@content-desc='Navigate up']",
+    SNACKBAR_VIEW_LIST_BUTTON = "//*[@resource-id='org.wikipedia:id/snackbar_action'][@text='VIEW LIST']";
 
 
 
@@ -67,6 +68,38 @@ public class ArticlePageObject extends  MainPageObject
         this.waitForElementAndClick(
                 By.xpath(MY_LIST_OK_BUTTON),
                 "Cannot find button 'OK'",
+                5
+        );
+    }
+
+    public void addArticleToExistingList(String name_of_folder) {
+
+        this.waitForElementPresent(
+                  By.xpath("//*[@resource-id='org.wikipedia:id/page_save']"),
+                "Cannot find button 'Save'",
+                10
+        );
+        this.waitForElementAndClick(
+                By.xpath(SAVE_BUTTON),
+                "Cannot find button 'Save'",
+                5
+        );
+
+        this.waitForElementAndClick(
+                By.xpath(SAVE_ADD_TO_MY_LIST_BUTTON),
+                "Cannot find button 'ADD TO LIST'",
+                5
+        );
+
+        this.waitForElementAndClick(
+                By.xpath("//*[@text='" + name_of_folder + "']"),
+                "Cannot find saved list",
+                5
+        );
+
+        this.waitForElementAndClick(
+                By.xpath(SNACKBAR_VIEW_LIST_BUTTON),
+                "Cannot find saved list",
                 5
         );
     }

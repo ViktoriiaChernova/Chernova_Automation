@@ -6,6 +6,7 @@ import lib.ui.MyListsPageObject;
 import lib.ui.NavigationUI;
 import lib.ui.SearchPageObject;
 import org.junit.Test;
+import org.openqa.selenium.By;
 
 public class MyListTests extends CoreTestCase {
     @Test
@@ -32,5 +33,30 @@ public class MyListTests extends CoreTestCase {
         MyListPageObject.openFolderByName(name_of_folder);
         MyListPageObject.swipeByArticleToDelete(article_title);
 
+    }
+
+    @Test
+    public void testSaveTwoArticlesToMyList()
+    {
+        SearchPageObject SearchPageObject = new SearchPageObject(driver);
+
+        SearchPageObject.initSearchInput();
+        SearchPageObject.typeSearchLine("Java");
+        SearchPageObject.clickByArticleWithSubstring("Object-oriented programming language");
+
+        ArticlePageObject ArticlePageObject = new ArticlePageObject(driver);
+        ArticlePageObject.waitForTitleElement();
+        String name_of_folder = "Learning programming";
+        ArticlePageObject.addArticleToMyList(name_of_folder);
+
+        SearchPageObject.initSearchInput();
+        SearchPageObject.typeSearchLine("Appium");
+        SearchPageObject.clickByArticleWithSubstring("Automation for Apps");
+        ArticlePageObject.addArticleToExistingList(name_of_folder);
+
+        MyListsPageObject MyListPageObject = new MyListsPageObject(driver);
+        MyListPageObject.swipeByArticleToDelete("Java (programming language)");
+        SearchPageObject.clickByArticleWithSubstring("Automation for Apps");
+        SearchPageObject.assertElementContainsText("Appium");
     }
 }

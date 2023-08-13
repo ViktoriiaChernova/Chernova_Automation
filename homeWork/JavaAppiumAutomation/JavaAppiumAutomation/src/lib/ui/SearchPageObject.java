@@ -11,7 +11,9 @@ public class SearchPageObject extends MainPageObject {
     SEARCH_CANCEL_BUTTON = "Navigate up",
     SEARCH_RESULT_BY_SUBSTRING_TPL = "//*[@text='{SUBSTRING}']",
     SEARCH_RESULT_ELEMENT = "//*[@resource-id='org.wikipedia:id/search_results_list']//*[@resource-id='org.wikipedia:id/page_list_item_title']",
-    SEARCH_EMPTY_RESULTS_ELEMENT = "//*[@text='No results']";
+    SEARCH_EMPTY_RESULTS_ELEMENT = "//*[@text='No results']",
+    SEARCH_ELEMENT_CONTAINS_TEXT = "//*[@class='android.widget.TextView']",
+    SEARCH_CLEAR_QUERY = "Clear query";
 
     public SearchPageObject(AppiumDriver driver)
     {
@@ -67,7 +69,7 @@ public class SearchPageObject extends MainPageObject {
                 "Cannot find anything by the request",
                 15
         );
-        return  this.getAmountOfElements(By.xpath(SEARCH_RESULT_ELEMENT));
+        return this.getAmountOfElements(By.xpath(SEARCH_RESULT_ELEMENT));
     }
 
     public void waitForEmptyResultsLabel()
@@ -79,5 +81,21 @@ public class SearchPageObject extends MainPageObject {
     {
         this.assertElementNotPresent(By.xpath(SEARCH_RESULT_ELEMENT), "We supposed not to find any results");
         String search_result_locator = "//*[@resource-id='org.wikipedia:id/search_results_list']//*[@resource-id='org.wikipedia:id/page_list_item_title']";
+    }
+
+    public void assertElementContainsText(String expected_text)
+    {
+        this.assertElementHasText(By.xpath(SEARCH_ELEMENT_CONTAINS_TEXT), expected_text, "Element does not contain expected text");
+    }
+
+    public void clickClearQuery()
+    {
+        this.waitForElementAndClick(By.id(SEARCH_CLEAR_QUERY), "Cannot clear query", 5);
+    }
+
+    public void titleContainsWord(String expected_word)
+    {
+        this.checkElementHasWord(
+                By.xpath(SEARCH_RESULT_ELEMENT), expected_word, "Element does not contain expected word " + expected_word);
     }
 }
