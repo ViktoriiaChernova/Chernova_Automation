@@ -6,16 +6,19 @@ import org.openqa.selenium.WebElement;
 
 public class ArticlePageObject extends  MainPageObject
 {
+    private static String name_of_folder = "Learning programming";
     private static final String
-    TITLE = "pcs-edit-section-title-description",
-    FOOTER_ELEMENT = "//*[@text='View article in browser']",
-    SAVE_BUTTON = "//android.widget.TextView[@content-desc='Save']",
-    SAVE_ADD_TO_MY_LIST_BUTTON = "//android.widget.Button[@text='ADD TO LIST']",
-    MY_LIST_NAME_INPUT = "org.wikipedia:id/text_input",
-    MY_LIST_OK_BUTTON = "//*[@text='OK']",
-    CLOSE_ARTICLE_BUTTON ="//android.widget.ImageButton[@content-desc='Navigate up']",
-    SNACKBAR_VIEW_LIST_BUTTON = "//*[@resource-id='org.wikipedia:id/snackbar_action'][@text='VIEW LIST']";
+    TITLE = "xpath://*[@resource-id='pcs-edit-section-title-description']",
+    FOOTER_ELEMENT = "xpath://*[@text='View article in browser']",
+    SAVE_BUTTON = "xpath://android.widget.TextView[@content-desc='Save']",
+    PAGE_SAVE_BUTTON = "xpath://*[@resource-id='org.wikipedia:id/page_save']",
 
+    NAME_OF_FOLDER = "xpath://*[@text='" + name_of_folder + "']",
+    SAVE_ADD_TO_MY_LIST_BUTTON = "xpath://android.widget.Button[@text='ADD TO LIST']",
+    MY_LIST_NAME_INPUT = "id:org.wikipedia:id/text_input",
+    MY_LIST_OK_BUTTON = "xpath://*[@text='OK']",
+    CLOSE_ARTICLE_BUTTON ="xpath://android.widget.ImageButton[@content-desc='Navigate up']",
+    SNACKBAR_VIEW_LIST_BUTTON = "xpath://*[@resource-id='org.wikipedia:id/snackbar_action'][@text='VIEW LIST']";
 
 
 
@@ -26,7 +29,7 @@ public class ArticlePageObject extends  MainPageObject
 
     public WebElement waitForTitleElement()
     {
-       return  this.waitForElementPresent(By.id(TITLE), "Cannot find article title on page", 10 );
+       return  this.waitForElementPresent(TITLE, "Cannot find article title on page", 15 );
     }
 
     public String getArticleTitle()
@@ -38,7 +41,7 @@ public class ArticlePageObject extends  MainPageObject
     public void swipeToFooter()
     {
         this.swipeUpToFindElement(
-                By.xpath(FOOTER_ELEMENT),
+                FOOTER_ELEMENT,
                 "Cannot find the end of article",
                 20
         );
@@ -47,26 +50,26 @@ public class ArticlePageObject extends  MainPageObject
     public void addArticleToMyList(String name_of_folder)
     {
         this.waitForElementAndClick(
-                By.xpath(SAVE_BUTTON),
+                SAVE_BUTTON,
                 "Cannot find button 'Save'",
                 5
         );
 
         this.waitForElementAndClick(
-                By.xpath(SAVE_ADD_TO_MY_LIST_BUTTON),
+                SAVE_ADD_TO_MY_LIST_BUTTON,
                 "Cannot find button 'ADD TO LIST'",
                 5
         );
 
         this.waitForElementAndSendKeys(
-                By.id(MY_LIST_NAME_INPUT),
+                MY_LIST_NAME_INPUT,
                 name_of_folder,
                 "Cannot put text into articles folder input",
                 5
         );
 
         this.waitForElementAndClick(
-                By.xpath(MY_LIST_OK_BUTTON),
+                MY_LIST_OK_BUTTON,
                 "Cannot find button 'OK'",
                 5
         );
@@ -75,30 +78,30 @@ public class ArticlePageObject extends  MainPageObject
     public void addArticleToExistingList(String name_of_folder) {
 
         this.waitForElementPresent(
-                  By.xpath("//*[@resource-id='org.wikipedia:id/page_save']"),
+                PAGE_SAVE_BUTTON,
                 "Cannot find button 'Save'",
                 10
         );
         this.waitForElementAndClick(
-                By.xpath(SAVE_BUTTON),
+                SAVE_BUTTON,
                 "Cannot find button 'Save'",
                 5
         );
 
         this.waitForElementAndClick(
-                By.xpath(SAVE_ADD_TO_MY_LIST_BUTTON),
+                SAVE_ADD_TO_MY_LIST_BUTTON,
                 "Cannot find button 'ADD TO LIST'",
                 5
         );
 
         this.waitForElementAndClick(
-                By.xpath("//*[@text='" + name_of_folder + "']"),
+                NAME_OF_FOLDER,
                 "Cannot find saved list",
                 5
         );
 
         this.waitForElementAndClick(
-                By.xpath(SNACKBAR_VIEW_LIST_BUTTON),
+                SNACKBAR_VIEW_LIST_BUTTON,
                 "Cannot find saved list",
                 5
         );
@@ -107,7 +110,7 @@ public class ArticlePageObject extends  MainPageObject
     public void closeArticle()
     {
         this.waitForElementAndClick(
-                By.xpath(CLOSE_ARTICLE_BUTTON),
+                CLOSE_ARTICLE_BUTTON,
                 "Cannot close article, cannot click back button",
                 5
         );
