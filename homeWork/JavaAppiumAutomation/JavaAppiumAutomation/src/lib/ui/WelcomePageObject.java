@@ -11,7 +11,9 @@ public class WelcomePageObject extends MainPageObject
     STEP_ADD_OR_EDIT_PREFERRED_LANG_LINK = "xpath://*[@name='Add or edit preferred languages']",
     STEP_LEARN_MORE_ABOUT_DATA_COLLECTED_LINK = "xpath://*[@name='Learn more about data collected']",
     NEXT_LINK = "xpath://*[@name='Next']",
-    GET_STARTED_BUTTON = "xpath://*[@name='Get started']";
+    GET_STARTED_BUTTON = "xpath://*[@name='Get started']",
+    SKIP_IOS = "xpath://XCUIElementTypeStaticText[@name='Skip']",
+    SKIP_ANDROID = "xpath://*[contains(@text,'SKIP')]";
 
 
     public WelcomePageObject(AppiumDriver driver)
@@ -47,6 +49,16 @@ public class WelcomePageObject extends MainPageObject
     public void waitForLearnMoreAboutDataCollectedText()
     {
         this.waitForElementPresent(STEP_LEARN_MORE_ABOUT_DATA_COLLECTED_LINK, "Cannot find 'Learn more about data collected'", 10);
+    }
+
+    public void clickSkipIOS()
+    {
+        this.waitForElementAndClick(SKIP_IOS, "Cannot find and click skip button", 10);
+    }
+
+    public void clickSkipAndroid()
+    {
+        this.waitForElementAndClick(SKIP_ANDROID, "Cannot find and click skip button", 10);
     }
 
 }

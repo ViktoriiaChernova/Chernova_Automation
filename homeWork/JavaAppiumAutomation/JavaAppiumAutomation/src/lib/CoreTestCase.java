@@ -2,6 +2,7 @@ package lib;
 
 import io.appium.java_client.AppiumDriver;
 import junit.framework.TestCase;
+import lib.ui.WelcomePageObject;
 import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.WebElement;
 import java.time.Duration;
@@ -12,17 +13,14 @@ public class CoreTestCase extends TestCase {
     private static final String PLATFORM_ANDROID = "android";
 
     protected AppiumDriver driver;
-    protected Platform Platform;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        this.Platform = new Platform();
-        driver = this.Platform.getDriver();
+        driver = Platform.getInstance().getDriver();
         this.rotateScreenPortrait();
-
-        WebElement element = driver.findElementByXPath("//*[contains(@text,'SKIP')]");
-        element.click();
+        this.skipWelcomePageForIOSApp();
+        this.skipWelcomePageForAndroidApp();
 
     }
 
@@ -45,5 +43,18 @@ public class CoreTestCase extends TestCase {
         driver.runAppInBackground(Duration.ofSeconds(seconds));
     }
 
+    private void skipWelcomePageForIOSApp() {
+        if (Platform.getInstance().isiOS()) {
+            WelcomePageObject WelcomePageObject = new WelcomePageObject(driver);
+            WelcomePageObject.clickSkipIOS();
+        }
+    }
+
+    private void skipWelcomePageForAndroidApp() {
+        if (Platform.getInstance().isAndroid()) {
+            WelcomePageObject WelcomePageObject = new WelcomePageObject(driver);
+            WelcomePageObject.clickSkipAndroid();
+        }
+    }
 }
 

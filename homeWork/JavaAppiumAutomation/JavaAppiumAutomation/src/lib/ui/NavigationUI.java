@@ -3,11 +3,9 @@ package lib.ui;
 import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.By;
 
-public class NavigationUI extends MainPageObject{
-
-    private static final String
-    MY_SAVED_TITLES_BUTTON = "xpath://android.widget.FrameLayout[@content-desc='Saved']";
-
+abstract public class NavigationUI extends MainPageObject{
+    protected static String
+    MY_SAVED_TITLES_BUTTON;
     public NavigationUI(AppiumDriver driver)
     {
         super(driver);
@@ -17,7 +15,7 @@ public class NavigationUI extends MainPageObject{
         this.waitForElementAndClick(
                 MY_SAVED_TITLES_BUTTON,
                 "Cannot find button 'Saved'",
-                5
+                60
         );
     }
 
