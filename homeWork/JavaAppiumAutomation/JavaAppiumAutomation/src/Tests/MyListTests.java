@@ -65,15 +65,33 @@ public class MyListTests extends CoreTestCase
 
         ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(driver);
         ArticlePageObject.waitForTitleElement();
-        String name_of_folder = "Learning programming";
-        ArticlePageObject.addArticleToMyList(name_of_folder);
+        String article_title = ArticlePageObject.getArticleTitle();
+
+        if(Platform.getInstance().isAndroid()) {
+            ArticlePageObject.addArticleToMyList(name_of_folder);
+        } else {
+            ArticlePageObject.addArticlesToMySaved();
+            ArticlePageObject.closeArticle();
+        }
 
         SearchPageObject.initSearchInput();
         SearchPageObject.typeSearchLine("Appium");
         SearchPageObject.clickByArticleWithSubstring("Automation for Apps");
-        ArticlePageObject.addArticleToExistingList(name_of_folder);
+
+        if(Platform.getInstance().isAndroid()) {
+            ArticlePageObject.addArticleToExistingList(name_of_folder);
+        } else {
+            ArticlePageObject.addArticlesToMySaved();
+            ArticlePageObject.closeArticle();
+            NavigationUI NavigationUI = NavigationUIFactory.get(driver);
+            NavigationUI.clickSavedInMyList();
+        }
 
         MyListsPageObject MyListPageObject = MyListsPageObjectFactory.get(driver);
+        if(Platform.getInstance().isiOS()){
+            MyListPageObject.closeLogInWindow();
+        }
+
         MyListPageObject.swipeByArticleToDelete("Java (programming language)");
         SearchPageObject.clickByArticleWithSubstring("Automation for Apps");
         SearchPageObject.assertElementContainsText("Appium");

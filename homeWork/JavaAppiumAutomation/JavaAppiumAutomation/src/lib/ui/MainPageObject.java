@@ -73,12 +73,19 @@ public class MainPageObject {
     public WebElement assertElementHasText (String locator, String expected_text, String error_message)
     {
         WebElement element = waitForElementPresent(locator, error_message);
-        String element_text = element.getAttribute("text");
-        Assert.assertEquals(
-                error_message,
-                expected_text,
-                element_text
-        );
+        if (Platform.getInstance().isAndroid()){
+            String element_text = element.getAttribute("text");
+            Assert.assertEquals(
+                    error_message,
+                    expected_text,
+                    element_text);
+        } else {
+            String element_text = element.getAttribute("name");
+            Assert.assertEquals(
+                    error_message,
+                    expected_text,
+                    element_text);
+        }
         return element;
     }
 
