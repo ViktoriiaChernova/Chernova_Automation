@@ -42,6 +42,9 @@ public class MyListTests extends CoreTestCase
         NavigationUI.clickSavedInMyList();
 
         MyListsPageObject MyListPageObject = MyListsPageObjectFactory.get(driver);
+        if(Platform.getInstance().isiOS()){
+            MyListPageObject.closeLogInWindow();
+        }
 
         if (Platform.getInstance().isAndroid()){
             MyListPageObject.openFolderByName(name_of_folder);

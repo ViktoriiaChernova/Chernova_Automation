@@ -8,7 +8,8 @@ abstract public class MyListsPageObject extends MainPageObject {
 
     protected static String
     FOLDER_BY_NAME_TPL,
-    ARTICLE_BY_TITLE_TPL;
+    ARTICLE_BY_TITLE_TPL,
+    CLOSE_BUTTON_LOG_IN_WINDOW;
 
     private static String getFolderXpathByName(String name_of_folder)
     {
@@ -17,7 +18,7 @@ abstract public class MyListsPageObject extends MainPageObject {
 
     private static String getSavedArticleXpathByTitle(String article_title)
     {
-        return ARTICLE_BY_TITLE_TPL .replace("{TITLE}", article_title);
+        return ARTICLE_BY_TITLE_TPL.replace("{TITLE}", article_title);
     }
 
 
@@ -37,7 +38,7 @@ abstract public class MyListsPageObject extends MainPageObject {
     }
     public void waitForArticleToAppearByTitle(String article_title)
     {
-        String article_xpath = getFolderXpathByName(article_title);
+        String article_xpath = getSavedArticleXpathByTitle(article_title);
         this.waitForElementPresent(
                 article_xpath,
                 "Cannot find saved article",
@@ -46,7 +47,7 @@ abstract public class MyListsPageObject extends MainPageObject {
     }
     public void waitForArticleToDisappearByTitle(String article_title)
     {
-        String article_xpath = getFolderXpathByName(article_title);
+        String article_xpath = getSavedArticleXpathByTitle(article_title);
         this.waitForElementNotPresent(
                 article_xpath,
                 "Cannot delete saved article",
@@ -56,7 +57,7 @@ abstract public class MyListsPageObject extends MainPageObject {
     public void swipeByArticleToDelete(String article_title)
     {
         this.waitForArticleToAppearByTitle(article_title);
-        String article_xpath = getFolderXpathByName(article_title);
+        String article_xpath = getSavedArticleXpathByTitle(article_title);
         this.swipeElementToLeft(
                 article_xpath,
                 "Cannot find saved article"
@@ -65,5 +66,10 @@ abstract public class MyListsPageObject extends MainPageObject {
             this.clickElementToTheRightUpperCorner(article_xpath, "Cannot find saved article");
         }
         this.waitForArticleToDisappearByTitle(article_title);
+    }
+
+    public void closeLogInWindow()
+    {
+        this.waitForElementAndClick(CLOSE_BUTTON_LOG_IN_WINDOW, "Cannot close log in window on Saved", 15 );
     }
 }

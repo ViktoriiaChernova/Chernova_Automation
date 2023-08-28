@@ -7,7 +7,7 @@ public class iOSArticlePageObject extends ArticlePageObject
 {
     private static String name_of_folder = "Learning programming";
     static {
-        TITLE = "id:Java (programming language)";
+        TITLE = "xpath://XCUIElementTypeStaticText[@name='Java (programming language)']";
         FOOTER_ELEMENT = "xpath://XCUIElementTypeStaticText[@name='View article in browser']";
         SAVE_BUTTON = "xpath://XCUIElementTypeButton[@name='Save for later']";
         CANCEL_BUTTON = "xpath://XCUIElementTypeStaticText[@name='Cancel']";
